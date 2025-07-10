@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:authenticator_app/app/data/services/secure_storage.dart';
 import 'package:authenticator_app/app/data/utils/variables.dart';
+import 'package:authenticator_app/app/routes/app_pages.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart' hide Response;
 
 final dio = Dio(
   BaseOptions(
@@ -18,7 +20,11 @@ String error(DioException v) {
     case DioExceptionType.connectionTimeout:
       return AppVariable.rto;
     case DioExceptionType.badResponse:
-      if (v.response != null) {
+      if (v.response!.statusCode == 401) {
+        SecureStorageService().deleteData("token");
+        Get.offAllNamed(Routes.LOGIN);
+        return "Unauthorized";
+      } else if (v.response != null) {
         return "${jsonDecode(v.response!.toString())['message']}";
       } else {
         return "${v.message}";
@@ -43,7 +49,7 @@ class Api {
   }
 
   Future<Response> postWithToken({String? path, Object? data}) async {
-    var token = box.getData("token");
+    var token = await box.getData("token");
     try {
       final response = await dio.post(
         path!,
@@ -62,7 +68,7 @@ class Api {
     Object? data,
     Map<String, dynamic>? queryParameters,
   }) async {
-    var token = box.getData("token");
+    var token = await box.getData("token");
     try {
       final response = await dio.put(
         path!,
@@ -81,7 +87,7 @@ class Api {
     String? path,
     Map<String, dynamic>? queryParameters,
   }) async {
-    var token = box.getData("token");
+    var token = await box.getData("token");
     try {
       final response = await dio.get(
         path!,
@@ -100,7 +106,7 @@ class Api {
     Map<String, dynamic>? queryParameters,
     Object? data,
   }) async {
-    var token = box.getData("token");
+    var token = await box.getData("token");
     try {
       final response = await dio.delete(
         path!,

@@ -1,3 +1,4 @@
+import 'package:authenticator_app/app/modules/splash/bindings/splash_binding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 

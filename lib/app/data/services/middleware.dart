@@ -4,32 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AuthMiddleware extends GetMiddleware {
-  final box = SecureStorageService();
-
-  // @override
-  // RouteSettings? redirect(String? route) {
-  //   print("kepanggil gak sih?");
-  //   return null;
-  // }
-
+  var box = SecureStorageService();
   @override
-  Future<GetNavConfig?> redirectDelegate(GetNavConfig route) async {
-    var token = await box.getData("token");
-    print(token);
-    if (token == null || token.isNotEmpty) {
-      return GetNavConfig.fromRoute(Routes.LOGIN);
-    }
-    return super.redirectDelegate(route);
+  // ignore: body_might_complete_normally_nullable
+  RouteSettings? redirect(String? route) {
+    var token = box.getData("token");
+    token.then((v) {
+      if (v == null || v.isEmpty) {
+        return RouteSettings(name: Routes.LOGIN);
+      } else {
+        return null;
+      }
+    });
   }
-
-  // @override
-  // Future<GetNavConfig?> redirectDelegate(GetNavConfig route) async {
-  //   var token = await box.getData("token");
-  //   print(token);
-
-  //   if (token == null || token.isNotEmpty) {
-  //     return GetNavConfig.fromRoute(Routes.LOGIN);
-  //   }
-  //   return await super.redirectDelegate(route);
-  // }
 }
