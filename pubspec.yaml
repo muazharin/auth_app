@@ -20,6 +20,10 @@ dependencies:
   flutter_secure_storage: ^9.2.4
   flutter_svg: ^2.2.0
   flutter_slidable: ^4.0.0
+  jwt_decoder: ^2.0.1
+  flutter_advanced_drawer: ^1.5.0
+  qr_code_scanner_plus: ^2.0.10+1
+  otp: ^3.1.4
 
 dev_dependencies:
   flutter_test:

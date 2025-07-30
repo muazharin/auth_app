@@ -5,17 +5,17 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:get/get.dart';
 
-import '../controllers/mykeys_controller.dart';
+import '../controllers/users_controller.dart';
 
-class MykeysView extends GetView<MykeysController> {
-  const MykeysView({super.key});
+class UsersView extends GetView<UsersController> {
+  const UsersView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text('My Keys', style: textSemiBold),
+        title: Text('Users', style: textSemiBold),
         centerTitle: true,
         automaticallyImplyLeading: false,
         leading: InkWell(
@@ -23,7 +23,7 @@ class MykeysView extends GetView<MykeysController> {
           child: Icon(Icons.arrow_back_ios_new_rounded),
         ),
       ),
-      body: GetBuilder<MykeysController>(
+      body: GetBuilder<UsersController>(
         builder: (context) {
           if (controller.isLoading) {
             return const Center(child: CircularProgressIndicator());
@@ -40,6 +40,7 @@ class MykeysView extends GetView<MykeysController> {
                 children: [
                   const SizedBox(height: 16),
                   ...controller.data.asMap().entries.map((v) {
+                    // return Text(v.key!, style: textRegular);
                     return Column(
                       children: [
                         ClipRRect(
@@ -75,21 +76,9 @@ class MykeysView extends GetView<MykeysController> {
                                 ],
                               ),
                               child: ListTile(
-                                title: Row(
-                                  children: [
-                                    Text(v.value.name!, style: textSemiBold),
-                                    const SizedBox(width: 8),
-                                    Icon(
-                                      Icons.check_circle_rounded,
-                                      size: 14,
-                                      color: v.value.active!
-                                          ? AppColor.green500
-                                          : AppColor.grey500,
-                                    ),
-                                  ],
-                                ),
+                                title: Text(v.value.name!, style: textSemiBold),
                                 subtitle: Text(
-                                  v.value.key!,
+                                  v.value.email!,
                                   style: textRegular,
                                 ),
                               ),
@@ -106,7 +95,7 @@ class MykeysView extends GetView<MykeysController> {
           }
         },
       ),
-      floatingActionButton: GetBuilder<MykeysController>(
+      floatingActionButton: GetBuilder<UsersController>(
         builder: (context) {
           if (controller.data.isNotEmpty) {
             return FloatingActionButton(

@@ -27,8 +27,8 @@ class LoginController extends GetxController {
         var result = jsonDecode(response.toString());
 
         if (result['status'] == 200) {
-          box.saveData("token", result["data"]["token"]);
-          Get.offAllNamed(Routes.HOME);
+          await box.saveData("token", result["data"]["token"]);
+          Get.rootDelegate.offNamed(Routes.HOME);
         } else {
           snackbarDanger(message: result['message']);
         }
